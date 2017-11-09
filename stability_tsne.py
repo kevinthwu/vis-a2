@@ -47,8 +47,7 @@ def main(argv):
 
     df = pd.read_table(filename,
                        sep=',',
-                       index_col=None,
-                       header=None)
+                       index_col=None)
 
     print("=== Data loaded ===")
     
