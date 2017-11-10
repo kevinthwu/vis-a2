@@ -1,3 +1,8 @@
+# COMP8503 Assignment 2
+# Authors: Wu Tien Hsuan, Wu Zhiyong
+# TCSVT 2017 Clustervision Visual Supervision of Unsupervised Clustering
+# Stability Score
+
 import sys
 import pandas as pd
 from scipy import linalg
@@ -100,7 +105,17 @@ def main(argv):
         
     print("=== Complete Clustering ===")
 
-
+    # Print statistics
+    print("***************************************")
+    print("****** Pair Frequency Statistics ******")
+    for th in range(k_means_high-k_means_low+1, threshold-1, -1):
+        print("Pairs with frequency equals {}: ".format(th),
+               sum((v2 >= th)
+                    for v1 in frequency.values() 
+                        for v2 in v1.values()))
+    print("***************************************")
+    
+    # Connect the pairs of points that are above threshold
     number_of_clusters = 0
     print("===Finding stable clusters with threshold = {}===".format(threshold))
     print("This may take one to two minutes...")
