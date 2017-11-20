@@ -1,3 +1,8 @@
+# COMP8503 Assignment 2
+# Authors: Wu Tien Hsuan, Wu Zhiyong
+# TCSVT 2017 Clustervision Visual Supervision of Unsupervised Clustering
+# Stability Score
+
 import sys
 import pandas as pd
 from scipy import linalg
@@ -6,15 +11,15 @@ from rtree import index
 import numpy as np
 import time
 import matplotlib.pyplot as plt
-from sklearn.manifold import TSNE
 from itertools import combinations
+
+paint_data = False
 
 def main(argv):
 
     if(len(argv) < 2):
         print("Usage: python stability.py <input-file> [<threshold> <search> <lowest-k> <highest-k>]")
-        print("<input-file>: input file name, each line in the file represents a point. The X-coordinate")
-        print("              and Y-coordinate is separated by a space. Use paint.csv as an example.")
+        print("<input-file>: input file name.  Use t4.8k.dat or paint.csv as an example.")
         print("<threshold>:  the threshold for stable cluster. Default: 17")
         print("<search>:     whether to show the statistics for different thresholds (on|off). Default: off")
         print("<lowest-k>:   parameters k as in k-means. Default: 2")
@@ -23,6 +28,8 @@ def main(argv):
         return
 
     filename = argv[1]
+    if filename == "paint.csv":
+        paint_data = True
     
     threshold = 17
     k_means_low = 2
@@ -45,25 +52,39 @@ def main(argv):
     # Load data here
     print("=== Loading data ===")
 
-    df = pd.read_table(filename,
+    if paint_data:
+        df = pd.read_table(filename,
                        sep=',',
                        index_col=None)
 
+        X = df.iloc[:,2:].as_matrix()
+
+        Xtsne = TSNE(n_components=2).fit_transform(X)
+
+    else:                           
+        df = pd.read_table(filename,
+                        delim_whitespace=True,
+                        index_col=None,
+                        header=None)
+
+        X = df.as_matrix()
+
     print("=== Data loaded ===")
-    
-    X = df.iloc[:,2:].as_matrix()
 
 
-    Xtsne = TSNE(n_components=2).fit_transform(X)
     # Show the input data
-    plt.scatter(Xtsne[:, 0], Xtsne[:, 1], 
-                c='blue', marker='o', 
-                s=5)
+    if paint_data:
+        plt.scatter(Xtsne[:, 0], Xtsne[:, 1], 
+                    c='blue', marker='o', 
+                    s=5)        
+    else:
+        plt.scatter(df[0], df[1], 
+                    c='blue', marker='o', 
+                    s=5)
     plt.grid()
     plt.tight_layout()
-    plt.savefig('./original_bob.png', dpi=300)
-    plt.show()
-
+    plt.savefig('./original.png', dpi=300)
+    #plt.show()
 
     print("=== Initializing data ===")
 
@@ -106,6 +127,7 @@ def main(argv):
     print("***************************************")
     print("****** Pair Frequency Statistics ******")
     print("***************************************")
+
     for th in range(k_means_high-k_means_low+1, threshold-1, -1):
         print("Pairs with frequency equals {}: ".format(th),
                sum((v2 >= th)
@@ -158,14 +180,23 @@ def main(argv):
     markers = ["o", "s", "p", "*", "^", "8", "D"]
     labels = np.asarray(labels)
 
-    plt.scatter(Xtsne[:, 0][labels==0], Xtsne[:, 1][labels==0], c='gray', marker='o', s=5)
+    if paint_data:
 
-    for i in range(1, number_of_clusters+1):
-        plt.scatter(Xtsne[:, 0][labels==i], Xtsne[:, 1][labels==i], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
+            plt.scatter(Xtsne[:, 0][labels==0], Xtsne[:, 1][labels==0], c='gray', marker='o', s=5)
+
+        for i in range(1, number_of_clusters+1):
+            plt.scatter(Xtsne[:, 0][labels==i], Xtsne[:, 1][labels==i], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
+
+    else:
+
+        plt.scatter(df[0][labels==0], df[1][labels==0], c='gray', marker='o', s=5)
+
+        for i in range(1, number_of_clusters+1):
+            plt.scatter(df[0][labels==i], df[1][labels==i], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
 
     plt.grid()
     plt.tight_layout()
-    plt.savefig('./result_with_given_threshold_bob.png', dpi=300)
+    plt.savefig('./result_with_given_threshold.png', dpi=300)
     plt.show()
     print("Outliers (does not meet threshold with any other data point) are shown in gray")
 
@@ -232,10 +263,15 @@ def main(argv):
             
             labels = np.asarray(labels)
             for i in range(1, number_of_clusters+1):
-                plt.scatter(Xtsne[labels==i][:, 0], Xtsne[labels==i][:, 1], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
+                if paint_data:
+                    plt.scatter(Xtsne[labels==i][:, 0], Xtsne[labels==i][:, 1], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
+
+                else:
+                    plt.scatter(df[0][labels==i], df[1][labels==i], c=colors[i%9], marker=markers[int(i/9)%7], s=5)
+                
                 plt.grid()
                 plt.tight_layout()
-                #plt.show
+                #plt.show()
                 plt.savefig('./result_' + str(th), dpi=300)
                 
             if number_of_clusters > len(colors)*len(markers):
