@@ -11,11 +11,12 @@ from rtree import index
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+from sklearn.manifold import TSNE
 from itertools import combinations
 
-paint_data = False
-
 def main(argv):
+
+    paint_data = False
 
     if(len(argv) < 2):
         print("Usage: python stability.py <input-file> [<threshold> <search> <lowest-k> <highest-k>]")
@@ -197,7 +198,7 @@ def main(argv):
     plt.grid()
     plt.tight_layout()
     plt.savefig('./result_with_given_threshold.png', dpi=300)
-    plt.show()
+    plt.show() #### This is the result so it is worth showing!! ###
     print("Outliers (does not meet threshold with any other data point) are shown in gray")
 
     if(number_of_clusters > len(colors)*len(markers)):
