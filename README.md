@@ -17,15 +17,15 @@ result is visualized in 2D space. (See the conclusion section in the aforementio
 
 ## Useful files included
 
-*stability.py*: core to compute the stability metrics and produce output figures 
+**stability.py**: core to compute the stability metrics and produce output figures 
 
 t4.8k.dat, paint.csv: input files for stability.py
 
-*viewer.py*: gui to display the figures produced by viewer
+**viewer.py**: gui to display the figures produced by viewer
 
 new_paint.png, new_t4.8k.png, original_paint.png, original_t4.8k.png: files required to run viewer.py
 
-*prototype.pdf*, *viewer_example.png*: snapshots of stability.py, viewer.py
+**prototype.pdf**, **viewer_example.png**: snapshots of stability.py, viewer.py
 
 ## Usage
 
