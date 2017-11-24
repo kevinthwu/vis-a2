@@ -2,7 +2,9 @@
 
 TCSVT 2017 Clustervision Visual Supervision of Unsupervised Clustering
 
-Stability score
+In this project, we evaluate k-means clutering results by varying the parameter k, and compute the stability scores. For
+two data point, the stability score is higher if they belong to the same cluster in most of the clustering results. The
+result is visualized in 2D space. (See the conclusion section in the aforementioned paper.)
 
 ## Requirements
 * python: 3.5
@@ -12,6 +14,18 @@ Stability score
 * matplotlib: 2.1.0
 * numpy: 1.11.1
 * pandas: 0.20.3
+
+## Useful files included
+
+*stability.py*: core to compute the stability metrics and produce output figures 
+
+t4.8k.dat, paint.csv: input files for stability.py
+
+*viewer.py*: gui to display the figures produced by viewer
+
+new_paint.png, new_t4.8k.png, original_paint.png, original_t4.8k.png: files required to run viewer.py
+
+*prototype.pdf*, *viewer_example.png*: snapshots of stability.py, viewer.py
 
 ## Usage
 
