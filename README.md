@@ -77,4 +77,4 @@ new_paint.png: The result after finding stability index of painting dataset
 
 ### Deprecated code
 
-`stability.py` now contains both programms `stability_a1` and `stability_tsne.py`
+`stability.py` now contains both programs `stability_a1` and `stability_tsne.py`
