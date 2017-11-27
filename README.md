@@ -2,6 +2,8 @@
 
 Author: Tien-Hsuan Wu, Zhiyong Wu
 
+Also available here: https://github.com/kevinthwu/vis-a2
+
 TCSVT 2017 Clustervision Visual Supervision of Unsupervised Clustering (Ng, et al., 2017)
 
 In this project, we evaluate k-means clutering results by varying the parameter k, and compute the stability scores. For
